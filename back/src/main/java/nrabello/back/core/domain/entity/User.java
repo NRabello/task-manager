@@ -27,6 +27,9 @@ public class User extends DomainEntity implements UserDetails {
     @Column
     private String password;
 
+    @Column
+    private String name;
+
     @ManyToOne
     private Role role;
 

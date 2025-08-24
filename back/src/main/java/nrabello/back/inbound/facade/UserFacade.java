@@ -3,6 +3,7 @@ package nrabello.back.inbound.facade;
 import lombok.RequiredArgsConstructor;
 import nrabello.back.core.domain.entity.User;
 import nrabello.back.core.domain.entity.dto.user.LoginDTO;
+import nrabello.back.core.domain.entity.dto.user.UserResponseDTO;
 import nrabello.back.core.usecase.user.BuscarDadosUsuarioUseCase;
 import nrabello.back.core.usecase.user.LoginUseCase;
 import org.springframework.stereotype.Component;
@@ -29,7 +30,7 @@ public class UserFacade {
         return loginUseCase.execute(dto);
     }
 
-    public User buscarDadosUsuario(){
+    public UserResponseDTO buscarDadosUsuario(){
         return buscarDadosUsuarioUseCase.execute(null);
     }
 }

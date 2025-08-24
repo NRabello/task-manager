@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import nrabello.back.core.domain.entity.User;
 import nrabello.back.core.domain.entity.dto.user.CreateUserDTO;
 import nrabello.back.core.domain.entity.dto.user.LoginDTO;
+import nrabello.back.core.domain.entity.dto.user.UserResponseDTO;
 import nrabello.back.inbound.controller.Handler.ResponseContent;
 import nrabello.back.inbound.facade.UserFacade;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,6 @@ public class UserController {
     @PostMapping("/register")
     @PreAuthorize("permitAll()")
     public ResponseEntity<ResponseContent<String>> register(@RequestBody @Valid CreateUserDTO user) {
-
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ResponseContent.<String>builder()
                         .data(facade.register(user))
@@ -51,10 +51,10 @@ public class UserController {
 
     @GetMapping("/dados-pessoais")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ResponseContent<User>> dadosPessoais() {
+    public ResponseEntity<ResponseContent<UserResponseDTO>> dadosPessoais() {
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ResponseContent.<User>builder()
+                .body(ResponseContent.<UserResponseDTO>builder()
                         .data(facade.buscarDadosUsuario())
                         .status(HttpStatus.OK.value())
                         .message("Dados obtidos com sucesso.")
