@@ -20,7 +20,7 @@ public class UserService {
         }
 
         String username = authentication.getName();
-        return userRepository.findByUsername(username)
+        return userRepository.findByUsernameAndActive(username, true)
                 .orElseThrow(() -> new IllegalStateException("Usuário autenticado não encontrado na base de dados"));
     }
 }

@@ -2,6 +2,8 @@ package nrabello.back.core.domain.entity.dto.task;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class TaskResponseDTO {
 
@@ -18,4 +20,10 @@ public class TaskResponseDTO {
     private Double remainingWork;
 
     private String userName;
+
+    private LocalDateTime startDate;
+
+    private LocalDateTime targetDate;
+
+    private LocalDateTime endDate;
 }

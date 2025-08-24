@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import nrabello.back.core.domain.enums.StatusTaskEnum;
 
+import java.time.LocalDateTime;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,5 +39,14 @@ public class Task extends DomainEntity {
 
     @ManyToOne
     private User user;
+
+    @Column
+    private LocalDateTime startDate;
+
+    @Column
+    private LocalDateTime targetDate;
+
+    @Column
+    private LocalDateTime endDate;
 
 }

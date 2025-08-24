@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import nrabello.back.core.domain.entity.StatusTask;
 
+import java.time.LocalDateTime;
+
 @Data
 public class CreateTaskDTO {
 
@@ -20,4 +22,10 @@ public class CreateTaskDTO {
     @NotNull(message = "Status é obrigatório.")
     private StatusTask status;
 
+    private LocalDateTime startDate;
+
+    @NotNull(message = "Data esperada é obrigatória.")
+    private LocalDateTime targetDate;
+
+    private LocalDateTime endDate;
 }

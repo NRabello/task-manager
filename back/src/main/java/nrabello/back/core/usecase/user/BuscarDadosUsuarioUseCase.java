@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import nrabello.back.core.domain.entity.User;
 import nrabello.back.core.domain.entity.dto.user.UserResponseDTO;
 import nrabello.back.core.domain.entity.mapper.UserMapper;
+import nrabello.back.core.domain.exception.DomainException;
 import nrabello.back.core.repository.UserRepository;
 import nrabello.back.core.usecase.IUseCase;
 import org.springframework.security.core.Authentication;
@@ -23,10 +24,10 @@ public class BuscarDadosUsuarioUseCase implements IUseCase<Void, UserResponseDTO
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-        User user = userRepository.findByUsername(username).orElse(null);
+        User user = userRepository.findByUsernameAndActive(username, true).orElse(null);
 
         if(user == null){
-            throw new RuntimeException("Usuário não encontrado");
+            throw DomainException.usuarioInvalido();
         }
 
         return mapper.toResponseDTO(user);

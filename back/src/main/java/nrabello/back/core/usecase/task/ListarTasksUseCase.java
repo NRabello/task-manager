@@ -24,7 +24,7 @@ public class ListarTasksUseCase implements IUseCase<Long, List<TaskResponseDTO>>
         if (input == null) {
             return taskRepository.findAll().stream().map(mapper::toResponseDTO).toList();
         } else {
-            return taskRepository.findAllByUser_Id(input).stream().map(mapper::toResponseDTO).toList();
+            return taskRepository.findAllByUser_IdAndActive(input, true).stream().map(mapper::toResponseDTO).toList();
         }
     }
 }

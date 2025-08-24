@@ -16,6 +16,6 @@ public class ListStatusTaskUseCase implements IUseCase<Void, List<StatusTask>> {
 
     @Override
     public List<StatusTask> execute(Void input) {
-        return statusTaskRepository.findAll();
+        return statusTaskRepository.findAllByActive(true);
     }
 }

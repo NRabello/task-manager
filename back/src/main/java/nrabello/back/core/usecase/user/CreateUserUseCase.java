@@ -44,7 +44,7 @@ public class CreateUserUseCase implements IUseCase<CreateUserDTO, String> {
     }
 
     private void validateUserExists(String username) {
-        if (userRepository.findByUsername(username).isPresent()) {
+        if (userRepository.findByUsernameAndActive(username, true).isPresent()) {
             throw new RuntimeException("User already exists");
         }
     }

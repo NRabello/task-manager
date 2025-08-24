@@ -10,5 +10,5 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     Optional<Task> findTopByOrderByCodeDesc();
 
-    List<Task> findAllByUser_Id(Long userId);
+    List<Task> findAllByUser_IdAndActive(Long userId, Boolean active);
 }
