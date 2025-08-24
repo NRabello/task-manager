@@ -17,25 +17,23 @@ public class Task extends DomainEntity {
     @Column
     private String title;
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(unique = true)
     private Integer code;
 
     @Column
     private String description;
 
-    @Column
-    @Enumerated(EnumType.STRING)
-    private StatusTaskEnum status;
+    @ManyToOne
+    private StatusTask status;
 
     @Column
     private Double effort;
 
     @Column
-    private Double completedWork;
+    private Double completedWork = 0.0;
 
     @Column
-    private Double remainingWork;
+    private Double remainingWork = 0.0;
 
     @ManyToOne
     private User user;
