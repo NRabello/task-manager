@@ -10,8 +10,8 @@ import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
-    public abstract User toEntity(CreateUserDTO dto);
+    User toEntity(CreateUserDTO dto);
 
     @Mapping(target = "rolename", source = "role.name")
-    public abstract UserResponseDTO toResponseDTO(User entity);
+    UserResponseDTO toResponseDTO(User entity);
 }

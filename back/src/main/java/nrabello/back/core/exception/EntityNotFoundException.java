@@ -14,10 +14,6 @@ public class EntityNotFoundException extends RuntimeException {
         this.entityId = entityId;
     }
 
-    public static EntityNotFoundException usuarioNaoEncontrado(Object id){
-        return new EntityNotFoundException("Usuário", id);
-    }
-
     public static EntityNotFoundException TaskNaoEncontrada(Object id){
         return new EntityNotFoundException("Task", id);
     }

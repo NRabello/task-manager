@@ -13,5 +13,6 @@ public interface TaskMapper {
     public abstract Task toEntity(CreateTaskDTO dto);
 
     @Mapping(target = "userName", source = "user.name")
+    @Mapping(target = "status", source = "status.name")
     public abstract TaskResponseDTO toResponseDTO(Task entity);
 }
