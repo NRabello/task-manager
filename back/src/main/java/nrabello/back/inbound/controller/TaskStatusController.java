@@ -6,7 +6,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import nrabello.back.core.domain.entity.TaskStatus;
 import nrabello.back.inbound.controller.Handler.ResponseContent;
-import nrabello.back.inbound.facade.StatusTaskFacade;
+import nrabello.back.inbound.facade.TaskStatusFacade;
+import nrabello.back.inbound.facade.dto.taskStatus.CreateStatusTaskDTO;
+import nrabello.back.inbound.facade.dto.taskStatus.TaskStatusResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,16 +23,16 @@ import java.util.List;
 @RequiredArgsConstructor
 @SecurityRequirement(name = "bearerAuth")
 @Tag(name = "StatusTask", description = "Operações relacionadas a status de tarefas")
-public class StatusTaskController {
+public class TaskStatusController {
 
     private final TaskStatusFacade facade;
 
     @PostMapping("/create")
     @PreAuthorize("isAuthenticated() and hasRole('ADMIN')")
-    public ResponseEntity<ResponseContent<TaskStatus>> createStatusTask(@RequestBody @Valid TaskStatus taskStatus) {
+    public ResponseEntity<ResponseContent<TaskStatus>> createStatusTask(@RequestBody @Valid CreateStatusTaskDTO createStatusTaskDTO) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResponseContent.<TaskStatus>builder()
-                        .data(facade.createStatusTask(taskStatus))
+                        .data(facade.createStatusTask(createStatusTaskDTO))
                         .status(HttpStatus.OK.value())
                         .message("Status de tarefa criado com sucesso.")
                         .build());
@@ -38,10 +40,10 @@ public class StatusTaskController {
 
     @GetMapping("/list")
     @PreAuthorize("isAuthenticated() and hasRole('ADMIN')")
-    public ResponseEntity<ResponseContent<List<StatusWorkItem>>> getStatusTask() {
+    public ResponseEntity<ResponseContent<List<TaskStatusResponseDTO>>> getStatusTask() {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ResponseContent.<List<StatusWorkItem>>builder()
-                        .data(facade.listStatusTask())
+                .body(ResponseContent.<List<TaskStatusResponseDTO>>builder()
+                        .data(facade.listTaskStatus())
                         .status(HttpStatus.OK.value())
                         .message("Lista de status de tarefa obtida com sucesso.")
                         .build());

@@ -1,14 +1,25 @@
-package nrabello.back.core.domain.entity.dto.task;
+package nrabello.back.inbound.facade.dto.task;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import nrabello.back.core.domain.entity.dto.WorkItem.CreateWorkItemDTO;
+import lombok.EqualsAndHashCode;
+import nrabello.back.inbound.facade.dto.workItem.CreateWorkItemDTO;
 
-
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class CreateTaskDTO {
+public class CreateTaskDTO extends CreateWorkItemDTO {
 
-    @NotNull(message = "WorkItem é obrigatório.")
-    CreateWorkItemDTO workItem;
+    private boolean crudTested;
+
+    private boolean multipleBrowsersTested;
+
+    private boolean evidenceAttached;
+
+    private String acceptanceCriteria;
+
+    private String descriptionOfImpediment;
+
+    @NotNull
+    private Long taskStatusId;
 
 }

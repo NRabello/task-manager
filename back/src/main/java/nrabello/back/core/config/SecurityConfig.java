@@ -1,5 +1,7 @@
 package nrabello.back.core.config;
 
+import nrabello.back.core.filter.JwtAuthFilter;
+import nrabello.back.core.service.IJwtService;
 import nrabello.back.core.service.LoginService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableMethodSecurity
@@ -23,16 +26,27 @@ public class SecurityConfig {
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint = new RestAuthenticationEntryPoint();
     private final RestAccessDeniedHandler customAccessDeniedHandler = new RestAccessDeniedHandler();
 
+    private static final String[] SWAGGER_WHITELIST = { "/swagger-ui.html", "/swagger-ui/**", "/api-docs/**",
+            "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**" };
+
+    private static final String[] PUBLIC_ENDPOINTS = { "/user/register", "/user/login", "/user/esqueci-minha-senha" };
+
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-                .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint(restAuthenticationEntryPoint)
-                        .accessDeniedHandler(customAccessDeniedHandler)
-                )
-                .build();
+    public JwtAuthFilter jwtAuthFilter(IJwtService jwtService, LoginService userDetailsService) {
+        return new JwtAuthFilter(jwtService, userDetailsService);
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth.requestMatchers(SWAGGER_WHITELIST)
+                        .permitAll()
+                        .requestMatchers(PUBLIC_ENDPOINTS)
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated())
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        return http.build();
     }
 
     @Bean

@@ -1,11 +1,13 @@
 package nrabello.back.inbound.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import nrabello.back.core.domain.entity.User;
-import nrabello.back.core.domain.entity.dto.user.CreateUserDTO;
-import nrabello.back.core.domain.entity.dto.user.LoginDTO;
-import nrabello.back.core.domain.entity.dto.user.UserResponseDTO;
+import nrabello.back.inbound.facade.dto.user.CreateUserDTO;
+import nrabello.back.inbound.facade.dto.user.LoginDTO;
+import nrabello.back.inbound.facade.dto.user.UserResponseDTO;
 import nrabello.back.inbound.controller.Handler.ResponseContent;
 import nrabello.back.inbound.facade.UserFacade;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 @Validated
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
+@Tag(name = "Usuários", description = "Operações relacionadas a usuários")
 public class UserController {
 
     private final UserFacade facade;
@@ -44,7 +48,6 @@ public class UserController {
                         .data(facade.login(login))
                         .status(HttpStatus.OK.value())
                         .message("Login bem-sucedido.")
-                        .params(login)
                         .build());
     }
 

@@ -25,6 +25,7 @@ public class DomainEntity {
     @PrePersist
     protected void onCreate() {
         this.createdAt = Optional.ofNullable(this.createdAt).orElse(LocalDateTime.now());
+        this.active = Optional.ofNullable(this.active).orElse(true);
     }
 
     @PreUpdate

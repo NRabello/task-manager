@@ -1,4 +1,4 @@
-package nrabello.back.core.domain.entity.dto;
+package nrabello.back.inbound.facade.dto;
 
 import lombok.Data;
 

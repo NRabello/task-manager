@@ -2,8 +2,8 @@ package nrabello.back.core.usecase.user;
 
 import lombok.RequiredArgsConstructor;
 import nrabello.back.core.domain.entity.User;
-import nrabello.back.core.domain.entity.dto.user.LoginDTO;
-import nrabello.back.core.domain.exception.DomainException;
+import nrabello.back.inbound.facade.dto.user.LoginDTO;
+import nrabello.back.core.exception.DomainException;
 import nrabello.back.core.repository.UserRepository;
 import nrabello.back.core.service.JwtService;
 import nrabello.back.core.usecase.IUseCase;
@@ -30,7 +30,7 @@ public class LoginUseCase implements IUseCase<LoginDTO, String> {
         Optional<User> user = userRepository.findByUsernameAndActive(input.getUsername(), true);
 
         if(user.isEmpty()){
-            throw DomainException.usuarioInvalido();
+            throw DomainException.userInvalid();
         }
 
         Authentication authentication = authenticationManager
@@ -39,7 +39,7 @@ public class LoginUseCase implements IUseCase<LoginDTO, String> {
         if (authentication.isAuthenticated()) {
             return jwtService.generateToken(user.get());
         }else{
-            throw DomainException.usuarioInvalido();
+            throw DomainException.userInvalid();
         }
     }
 }

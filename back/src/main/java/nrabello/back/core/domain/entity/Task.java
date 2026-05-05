@@ -11,14 +11,26 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @Getter
 @Setter
-public class TaskDetails extends WorkItemDetails {
+public class Task extends WorkItem {
 
     @Column
-    private boolean CRUDTested = false;
+    private boolean crudTested = false;
 
     @Column
-    private boolean MultipleBrowsersTested = false;
+    private boolean multipleBrowsersTested = false;
 
     @Column
-    private boolean EvidenceAttached = false;
+    private boolean evidenceAttached = false;
+
+    @Column
+    private String acceptanceCriteria;
+
+    @Column
+    private String descriptionOfImpediment;
+
+    @ManyToOne
+    @JoinColumn(name = "status_id", nullable = false)
+    private TaskStatus status;
+
+
 }

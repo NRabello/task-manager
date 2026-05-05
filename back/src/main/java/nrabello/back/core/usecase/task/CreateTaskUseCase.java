@@ -1,48 +1,52 @@
 package nrabello.back.core.usecase.task;
 
 import lombok.RequiredArgsConstructor;
-import nrabello.back.core.domain.entity.StatusTask;
 import nrabello.back.core.domain.entity.Task;
-import nrabello.back.core.domain.entity.dto.task.CreateTaskDTO;
-import nrabello.back.core.domain.entity.dto.task.TaskResponseDTO;
-import nrabello.back.core.domain.entity.mapper.TaskMapper;
-import nrabello.back.core.domain.exception.EntityNotFoundException;
-import nrabello.back.core.repository.StatusTaskRepository;
+import nrabello.back.core.domain.entity.TaskStatus;
+import nrabello.back.core.domain.entity.User;
+import nrabello.back.core.domain.entity.UserOrganization;
+import nrabello.back.core.exception.EntityNotFoundException;
 import nrabello.back.core.repository.TaskRepository;
+import nrabello.back.core.repository.TaskStatusRepository;
+import nrabello.back.core.repository.UserRepository;
+import nrabello.back.core.service.UserOrganizationService;
+import nrabello.back.inbound.facade.dto.task.CreateTaskDTO;
+import nrabello.back.inbound.facade.dto.task.TaskResponseDTO;
+import nrabello.back.inbound.facade.mapper.TaskMapper;
 import nrabello.back.core.service.UserService;
 import nrabello.back.core.usecase.IUseCase;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 
 @Component
 @RequiredArgsConstructor
 public class CreateTaskUseCase implements IUseCase<CreateTaskDTO, TaskResponseDTO> {
 
-    private final TaskRepository taskRepository;
-    private final StatusTaskRepository statusTaskRepository;
-    private final TaskMapper mapper;
+    private final TaskMapper taskMapper;
     private final UserService userService;
+    private final TaskRepository taskRepository;
+    private final TaskStatusRepository taskStatusRepository;
+    private final UserRepository userRepository;
+    private final UserOrganizationService userOrganizationService;
 
     @Override
     public TaskResponseDTO execute(CreateTaskDTO input) {
-        Task task = mapper.toEntity(input);
-        task.setCode(getNextCode());
-        task.setUser(userService.getUsuarioLogado());
-        task.setStatus(input.getStatus());
-        task.setActive(true);
+        userService.getUsuarioLogado();
+        UserOrganization userOrganization = userOrganizationService.getUserOrganization(input.getUserId(), input.getOrganizationId());
 
-        validateStatusTask(task.getStatus());
+        TaskStatus taskStatus = taskStatusRepository.findById(input.getTaskStatusId())
+                .orElseThrow(() -> EntityNotFoundException.statusTaskNaoEncontrada(input.getTaskStatusId()));
 
-        return mapper.toResponseDTO(taskRepository.save(task));
-    }
+        User user = userRepository.findById(input.getUserId())
+                .orElseThrow(() -> EntityNotFoundException.usuarioNaoEncontrado(input.getUserId()));
 
-    public Integer getNextCode(){
-        return taskRepository.findTopByOrderByCodeDesc().map(Task::getCode).orElse(0) + 1;
-    }
+        Task task = taskMapper.toEntity(input);
+        task.setStatus(taskStatus);
+        task.setUser(user);
+        task.setOrganization(userOrganization.getOrganization());
 
-    public void validateStatusTask(StatusTask statusTask){
-        if(statusTaskRepository.findByIdAndActive(statusTask.getId(), true).isEmpty()){
-            throw EntityNotFoundException.statusTaskNaoEncontrada(statusTask.getId());
-        }
+        return taskMapper.toResponseDTO(taskRepository.save(task));
     }
 }

@@ -1,7 +1,7 @@
-package nrabello.back.core.domain.entity.dto.task;
+package nrabello.back.inbound.facade.dto.task;
 
 import lombok.Data;
-import nrabello.back.core.domain.entity.dto.AbstractDTO;
+import nrabello.back.inbound.facade.dto.taskStatus.TaskStatusResponseDTO;
 
 import java.time.LocalDateTime;
 
@@ -18,10 +18,6 @@ public class TaskResponseDTO {
 
     private LocalDateTime targetDate;
 
-    private String status;
-
-    private String statusName;
-
     private Long userId;
 
     private boolean crudTested;
@@ -33,4 +29,6 @@ public class TaskResponseDTO {
     private String acceptanceCriteria;
 
     private String descriptionOfImpediment;
+
+    private String taskStatus;
 }

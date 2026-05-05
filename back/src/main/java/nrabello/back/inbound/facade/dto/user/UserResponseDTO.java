@@ -1,9 +1,8 @@
-package nrabello.back.core.domain.entity.dto.user;
+package nrabello.back.inbound.facade.dto.user;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import nrabello.back.core.domain.entity.Role;
-import nrabello.back.core.domain.entity.dto.AbstractDTO;
+import nrabello.back.inbound.facade.dto.AbstractDTO;
 
 @EqualsAndHashCode(callSuper = true)
 @Data

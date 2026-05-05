@@ -1,4 +1,4 @@
-package nrabello.back.core.domain.exception;
+package nrabello.back.core.exception;
 
 import lombok.Getter;
 
@@ -20,5 +20,9 @@ public class EntityNotFoundException extends RuntimeException {
 
     public static EntityNotFoundException statusTaskNaoEncontrada(Object id){
         return new EntityNotFoundException("StatusTask", id);
+    }
+
+    public static EntityNotFoundException usuarioNaoEncontrado(Object id){
+        return new EntityNotFoundException("Usuario", id);
     }
 }

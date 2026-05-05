@@ -2,13 +2,13 @@ package nrabello.back.inbound.facade;
 
 import lombok.RequiredArgsConstructor;
 import nrabello.back.core.domain.entity.User;
-import nrabello.back.core.domain.entity.dto.user.LoginDTO;
-import nrabello.back.core.domain.entity.dto.user.UserResponseDTO;
+import nrabello.back.inbound.facade.dto.user.LoginDTO;
+import nrabello.back.inbound.facade.dto.user.UserResponseDTO;
 import nrabello.back.core.usecase.user.BuscarDadosUsuarioUseCase;
 import nrabello.back.core.usecase.user.LoginUseCase;
 import org.springframework.stereotype.Component;
 import nrabello.back.core.usecase.user.CreateUserUseCase;
-import nrabello.back.core.domain.entity.dto.user.CreateUserDTO;
+import nrabello.back.inbound.facade.dto.user.CreateUserDTO;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
@@ -23,7 +23,8 @@ public class UserFacade {
 
     @Transactional
     public String register(CreateUserDTO dto) {
-        return createUserUseCase.execute(dto);
+        createUserUseCase.execute(dto);
+        return "Usuario cadastrado com sucesso.";
     }
 
     public String login(LoginDTO dto) {
