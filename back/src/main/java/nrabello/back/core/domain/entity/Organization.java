@@ -24,4 +24,7 @@ public class Organization extends DomainEntity {
 
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserOrganization> users = new ArrayList<>();
+
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    private List<Project> projects = new ArrayList<>();
 }

@@ -46,6 +46,7 @@ public abstract class WorkItem extends DomainEntity {
     @Column
     private Double remainingWork = 0.0;
 
-    @ManyToOne
-    private Organization organization;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_id", nullable = false)
+    private Project project;
 }

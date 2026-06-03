@@ -26,5 +26,5 @@ public abstract class CreateWorkItemDTO {
     private Long userId;
 
     @NotNull
-    private long organizationId;
+    private Long projectId;
 }

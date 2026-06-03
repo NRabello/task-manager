@@ -25,4 +25,12 @@ public class EntityNotFoundException extends RuntimeException {
     public static EntityNotFoundException usuarioNaoEncontrado(Object id){
         return new EntityNotFoundException("Usuario", id);
     }
+
+    public static EntityNotFoundException organizacaoNaoEncontrada(Object id){
+        return new EntityNotFoundException("Organization", id);
+    }
+
+    public static EntityNotFoundException projetoNaoEncontrado(Object id){
+        return new EntityNotFoundException("Project", id);
+    }
 }

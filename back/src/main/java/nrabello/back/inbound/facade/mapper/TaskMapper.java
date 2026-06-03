@@ -13,6 +13,7 @@ public interface TaskMapper {
 
     Task toEntity(CreateTaskDTO dto);
 
+    @Mapping(target = "id", source = "task.id")
     @Mapping(target = "title", source = "task.title")
     @Mapping(target = "description", source = "task.description")
     @Mapping(target = "effort", source = "task.effort")
@@ -20,6 +21,7 @@ public interface TaskMapper {
     @Mapping(target = "targetDate", source = "task.targetDate")
     @Mapping(target = "taskStatus", source = "task.status.name")
     @Mapping(target = "userId", source = "task.user.id")
+    @Mapping(target = "projectId", source = "task.project.id")
     @Mapping(target = "acceptanceCriteria", source = "task.acceptanceCriteria")
     TaskResponseDTO toResponseDTO(Task task);
 }

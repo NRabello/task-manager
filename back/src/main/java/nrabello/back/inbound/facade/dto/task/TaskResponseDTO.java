@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 @Data
 public class TaskResponseDTO {
 
+    private Long id;
+
     private String title;
 
     private String description;
@@ -19,6 +21,8 @@ public class TaskResponseDTO {
     private LocalDateTime targetDate;
 
     private Long userId;
+
+    private Long projectId;
 
     private boolean crudTested;
 

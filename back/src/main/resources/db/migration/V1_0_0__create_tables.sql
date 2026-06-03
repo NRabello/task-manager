@@ -18,6 +18,18 @@ CREATE TABLE organization (
     active BOOLEAN
 );
 
+CREATE TABLE project (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    organization_id BIGINT NOT NULL,
+    created_at DATETIME,
+    updated_at DATETIME,
+    active BOOLEAN,
+
+    CONSTRAINT fk_project_org FOREIGN KEY (organization_id) REFERENCES organization(id)
+);
+
 CREATE TABLE task_status (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -59,9 +71,10 @@ CREATE TABLE work_item (
     created_at DATETIME,
     updated_at DATETIME,
     active BOOLEAN,
-    organization_id BIGINT,
+    project_id BIGINT NOT NULL,
 
-    CONSTRAINT fk_workitem_user FOREIGN KEY (user_id) REFERENCES user(id)
+    CONSTRAINT fk_workitem_user FOREIGN KEY (user_id) REFERENCES user(id),
+    CONSTRAINT fk_workitem_project FOREIGN KEY (project_id) REFERENCES project(id)
 );
 
 CREATE TABLE task (
