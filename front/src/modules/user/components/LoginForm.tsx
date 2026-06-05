@@ -2,13 +2,11 @@
 
 import { LogIn, AlertCircle } from 'lucide-react'
 import { useState, FormEvent } from 'react'
-import { useRouter } from 'next/navigation'
-import { loginUser } from '../services/user.api'
+import { useLogin } from '../hooks/useLogin'
 import { TaskManagerLogo } from '@/shared/components/TaskManagerLogo'
 
 export function LoginForm() {
-  const router = useRouter()
-  const [loading, setLoading] = useState(false)
+  const { login, isLoading: loading } = useLogin()
   const [submitError, setSubmitError] = useState<string | null>(null)
 
   const [email, setEmail] = useState("")
@@ -35,15 +33,9 @@ export function LoginForm() {
     if (!isFormValid) return
 
     try {
-      setLoading(true)
-      const response = await loginUser({ username: email, password })
-      localStorage.setItem("token", response.data)
-      router.push("/organization")
-    } catch (err) {
-      console.error(err)
+      await login({ username: email, password })
+    } catch {
       setSubmitError("Could not sign in. Please check your credentials.")
-    } finally {
-      setLoading(false)
     }
   }
 

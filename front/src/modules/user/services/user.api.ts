@@ -11,11 +11,13 @@ export async function registerUser(user: RegisterDTO) {
   }
 };
 
-export async function loginUser(user: LoginDTO) {
-  try {
-    const response = await api.post('/user/login', user);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+interface ApiResponse<T> {
+  data: T;
+  status: number;
+  message: string;
+}
+
+export async function loginUser(user: LoginDTO): Promise<string> {
+  const response = await api.post<ApiResponse<string>>('/user/login', user);
+  return response.data.data;
+}

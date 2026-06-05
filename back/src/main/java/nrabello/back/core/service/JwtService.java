@@ -35,6 +35,8 @@ public class JwtService implements IJwtService {
     private String createToken(User user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", user.getRole().getName());
+        claims.put("id", user.getId());
+        claims.put("name", user.getName());
 
         Date issuedAt = new Date();
         Date expiration = new Date(issuedAt.getTime() + tokenDurationMs);
